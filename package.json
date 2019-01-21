@@ -1,0 +1,12 @@
+{
+  "name": "node-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node start"
+  },
+  "devDependencies": {
+    "babel-register": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  }
+}
