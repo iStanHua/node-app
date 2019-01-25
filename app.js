@@ -10,6 +10,8 @@ import Net from './src/base/net'
 import Path from './src/base/path'
 import Readline from './src/base/readline'
 
+import Tinify from './src/app/tinify'
+
 let completions = []
 Fs.readFiles('./src', completions, '.js')
 
@@ -50,6 +52,9 @@ rl.on('line', (line) => {
       break
     case 'readline':
       Readline.run()
+      break
+    case 'tinify':
+      Tinify.run()
       break
     default:
       console.log(`你输入的是：'${line.trim()}'`)

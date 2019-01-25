@@ -27,5 +27,38 @@ export default {
         }
       }
     })
+  },
+
+  /**
+  * 递归创建目录
+  * @param {String} sourcePath  来源路径
+  */
+  createDir(sourcePath) {
+    if (fs.existsSync(sourcePath)) {
+      return true
+    } else {
+      if (this.create(path.dirname(sourcePath))) {
+        fs.mkdirSync(sourcePath)
+        return true
+      }
+    }
+  },
+
+  /**
+  * 删除目录
+  * @param {String} sourcePath  来源路径
+  */
+  deleteDir(sourcePath) {
+    if (fs.existsSync(sourcePath)) {
+      fs.readdirSync(sourcePath).forEach(file => {
+        var curPath = path.join(sourcePath, file)
+        if (fs.statSync(curPath).isDirectory()) {
+          this.delete(curPath)
+        } else {
+          fs.unlinkSync(curPath)
+        }
+      })
+      fs.rmdirSync(sourcePath)
+    }
   }
 }
