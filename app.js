@@ -1,11 +1,6 @@
 // app.js
 
 import readline from 'readline'
-import shell from 'shelljs'
-
-shell.ls('*.js').forEach(file=>{
-  console.log(file)
-})
 
 import childProcess from './src/base/child_process'
 import Dns from './src/base/dns'
@@ -20,6 +15,8 @@ import Shell from './src/app/shell'
 
 let completions = []
 Fs.readFiles('./src', completions, '.js')
+completions.push('exit')
+completions.sort()
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -65,6 +62,10 @@ rl.on('line', (line) => {
       break
     case 'shell':
       Shell.push()
+      break
+
+    case 'exit':
+      process.exit(0)
       break
     default:
       console.log(`你输入的是：'${line.trim()}'`)
