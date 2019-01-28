@@ -8,6 +8,7 @@
   "devDependencies": {
     "babel-register": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "tinify":"^1.6.0-beta.2"
+    "tinify":"^1.6.0-beta.2",
+    "shelljs":"^0.8.3"
   }
 }

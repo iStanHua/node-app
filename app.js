@@ -11,6 +11,7 @@ import Path from './src/base/path'
 import Readline from './src/base/readline'
 
 import Tinify from './src/app/tinify'
+import Shell from './src/app/shell'
 
 let completions = []
 Fs.readFiles('./src', completions, '.js')
@@ -53,8 +54,12 @@ rl.on('line', (line) => {
     case 'readline':
       Readline.run()
       break
+
     case 'tinify':
       Tinify.run()
+      break
+    case 'shell':
+      Shell.push()
       break
     default:
       console.log(`你输入的是：'${line.trim()}'`)
