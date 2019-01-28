@@ -1,6 +1,12 @@
 // app.js
 
 import readline from 'readline'
+import shell from 'shelljs'
+
+shell.cd('./src')
+shell.ls('*.js').forEach(file=>{
+  console.log(file)
+})
 
 import childProcess from './src/base/child_process'
 import Dns from './src/base/dns'
