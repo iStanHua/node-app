@@ -7,7 +7,7 @@ export default {
     shell.echo('git push')
     shell.exec('git add .')
     shell.exec('git commit -am ".."')
-    shell.exec('git pull orgin master')
-    shell.exec('git push orgin master')
+    shell.exec('git pull origin master')
+    shell.exec('git push origin master')
   }
 }

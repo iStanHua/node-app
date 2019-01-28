@@ -24,7 +24,7 @@ Fs.readFiles('./src', completions, '.js')
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: '请输入> ',
+  prompt: '>>',
   completer: (line) => {
     const hits = completions.filter((c) => c.startsWith(line))
     // 如果没匹配到y则展示全部补全
