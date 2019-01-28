@@ -3,7 +3,6 @@
 import readline from 'readline'
 import shell from 'shelljs'
 
-shell.cd('./src')
 shell.ls('*.js').forEach(file=>{
   console.log(file)
 })
