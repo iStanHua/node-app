@@ -1,12 +1,10 @@
-// base/readline.js
+// base/readline.js 逐行读取
 
 import readline from 'readline'
 import fs from 'fs'
 
 export default {
   run() {
-    console.log('<readline>逐行读取</readline>')
-
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout

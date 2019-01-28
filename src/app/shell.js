@@ -9,5 +9,11 @@ export default {
     shell.exec('git commit -am ".."')
     shell.exec('git pull origin master')
     shell.exec('git push origin master')
+  },
+  cd(p) {
+    shell.cd(p)
+  },
+  ls() {
+    shell.ls().forEach(l=>console.log(l))
   }
 }

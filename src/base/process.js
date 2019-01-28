@@ -1,6 +1,4 @@
-// base/process.js
-
-console.log('<process>进程</process>')
+// base/process.js 进程
 
 const unhandledRejections = new Map()
 

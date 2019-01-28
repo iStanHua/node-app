@@ -18,6 +18,9 @@ Fs.readFiles('./src', completions, '.js')
 completions.push('exit')
 completions.sort()
 
+const contexts = Fs.context(process.cwd() + '/src')
+console.log(contexts)
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -62,6 +65,9 @@ rl.on('line', (line) => {
       break
     case 'shell':
       Shell.push()
+      break
+    case 'ls':
+      Shell.ls()
       break
 
     case 'exit':

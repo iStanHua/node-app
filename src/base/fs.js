@@ -60,5 +60,27 @@ export default {
       })
       fs.rmdirSync(sourcePath)
     }
+  },
+  /**
+   * 读取目录文件内容
+   * @param {String} filePath 文件目录
+   * @param {String} ext      扩展名
+   */
+  async context(filePath, ext = '.js') {
+    let files = {}
+    let list = fs.readdirSync(filePath)
+    for (let i = 0; i < list.length; i++) {
+      const file = list[i]
+      let stat = fs.statSync(path.join(filePath, file))
+      if (stat.isDirectory()) {
+        this.context(path.join(filePath, file), ext)
+      } else {
+        if (path.extname(file) === ext) {
+          if (file.indexOf('buffer') > -1 || file.indexOf('process') > -1) continue
+          files[path.basename(file, ext)] = require(path.join(filePath, file))
+        }
+      }
+    }
+    return files
   }
 }
