@@ -34,7 +34,7 @@ export default {
       })
     }
 
-    exec('node process 100', defaults, (err, stdout, stderr) => {
+    exec('node buffer', defaults, (err, stdout, stderr) => {
       if (err) {
         console.error(err)
         return

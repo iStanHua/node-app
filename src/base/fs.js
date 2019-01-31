@@ -66,7 +66,7 @@ export default {
    * @param {String} filePath 文件目录
    * @param {String} ext      扩展名
    */
-  async context(filePath, ext = '.js') {
+  context(filePath, ext = '.js') {
     let files = {}
     let list = fs.readdirSync(filePath)
     for (let i = 0; i < list.length; i++) {

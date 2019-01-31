@@ -3,12 +3,15 @@
 import readline from 'readline'
 
 import childProcess from './src/base/child_process'
+import crypto from './src/base/crypto'
 import Dns from './src/base/dns'
 import Fs from './src/base/fs'
 import Http from './src/base/http'
 import Net from './src/base/net'
+import Os from './src/base/os'
 import Path from './src/base/path'
 import Readline from './src/base/readline'
+import Zlib from './src/base/zlib'
 
 import Tinify from './src/app/tinify'
 import Shell from './src/app/shell'
@@ -39,6 +42,9 @@ rl.on('line', (line) => {
     case 'child_process':
       childProcess.run()
       break
+    case 'crypto':
+      crypto.run()
+      break
     case 'dns':
       Dns.run()
       break
@@ -53,11 +59,17 @@ rl.on('line', (line) => {
     case 'net':
       Net.unOccupiedPort(8899).then(res => console.log(res))
       break
+    case 'os':
+      Os.run()
+      break
     case 'path':
       Path.run('./app.js')
       break
     case 'readline':
       Readline.run()
+      break
+    case 'zlib':
+      Zlib.run()
       break
 
     case 'tinify':
