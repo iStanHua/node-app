@@ -13,6 +13,7 @@ import Path from './src/base/path'
 import Readline from './src/base/readline'
 import Zlib from './src/base/zlib'
 
+import Potrace from './src/app/potrace'
 import Tinify from './src/app/tinify'
 import Shell from './src/app/shell'
 
@@ -72,6 +73,9 @@ rl.on('line', (line) => {
       Zlib.run()
       break
 
+    case 'potrace':
+      Potrace.run()
+      break
     case 'tinify':
       Tinify.run()
       break
