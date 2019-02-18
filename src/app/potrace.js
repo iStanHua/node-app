@@ -12,6 +12,6 @@ export default {
     }, (err, svg) => {
       if (err) console.log(err)
       fs.writeFileSync('faces.svg', svg)
-    });
+    })
   }
 }

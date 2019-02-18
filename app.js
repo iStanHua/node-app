@@ -11,9 +11,11 @@ import Net from './src/base/net'
 import Os from './src/base/os'
 import Path from './src/base/path'
 import Readline from './src/base/readline'
+import Url from './src/base/url'
 import Zlib from './src/base/zlib'
 
 import Potrace from './src/app/potrace'
+import Puppeteer from './src/app/puppeteer'
 import Tinify from './src/app/tinify'
 import Shell from './src/app/shell'
 
@@ -69,6 +71,9 @@ rl.on('line', (line) => {
     case 'readline':
       Readline.run()
       break
+    case 'url':
+      Url.run()
+      break
     case 'zlib':
       Zlib.run()
       break
@@ -76,6 +81,10 @@ rl.on('line', (line) => {
     case 'potrace':
       Potrace.run()
       break
+    case 'puppeteer':
+      Puppeteer.run()
+      break
+
     case 'tinify':
       Tinify.run()
       break
