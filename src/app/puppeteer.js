@@ -13,7 +13,9 @@ export default {
   async nodeJS() {
     const browser = await puppeteer.launch({ headless: false })
     const page = await browser.newPage()
+    await page.tracing.start({ path: 'trace.json' })
     await page.goto('http://nodejs.cn/api/')
+    await page.tracing.stop()
 
     const data = await page.$$eval('#apicontent ul li', $li => {
       return $li.map(v => {
@@ -39,11 +41,18 @@ export default {
     const html = await page.evaluateHandle(body => body.innerHTML, aHandle)
     await aHandle.dispose()
 
-    // console.log(await html.jsonValue())
-
     const $ = cheerio.load(await html.jsonValue())
-    console.log($.html())
+    let data = []
 
+    $('.am-tabs-tabpane-active .section-list-item').each(()=> {
+      let $this = $(this)
+      data.push({
+        name: $this.find('.head-name').text().replace(/\s/g, ''),
+        logo: $this.find('.dd-avatar-square').attr('src'),
+      })
+    })
+
+    console.log(data)
     // const data = await page.$$eval('.am-tabs-tabpane-active .section-list-item', $li => {
     //   return $li.map(v => {
     //     return {
