@@ -4,6 +4,8 @@ import puppeteer from 'puppeteer'
 import devices from 'puppeteer/DeviceDescriptors'
 import cheerio from 'cheerio'
 
+import PuppeteerUtil from './puppeteerUtil'
+
 export default {
   async run() {
     await this.nodeJS()
@@ -13,6 +15,10 @@ export default {
   async nodeJS() {
     const browser = await puppeteer.launch({ headless: false })
     const page = await browser.newPage()
+
+    let puppeteerUtil = new PuppeteerUtil(page)
+    console.log(await puppeteerUtil.loginWeibo('xxxx','xxxxx'))
+
     await page.tracing.start({ path: 'trace.json' })
     await page.goto('http://nodejs.cn/api/')
     await page.tracing.stop()
