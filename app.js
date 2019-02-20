@@ -30,7 +30,7 @@ console.log(contexts)
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: '>>',
+  prompt: '>',
   completer: (line) => {
     const hits = completions.filter((c) => c.startsWith(line))
     // 如果没匹配到y则展示全部补全
