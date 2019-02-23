@@ -15,6 +15,7 @@ export default class PuppeteerUtil {
    */
   async loginGithub(account, password) {
     try {
+
       await this.page.goto('https://github.com/login')
 
       await this.page.type('#login_field', account, { delay: 20 })
@@ -37,12 +38,13 @@ export default class PuppeteerUtil {
    */
   async loginWeibo(account, password) {
     try {
-      await this.page.goto('https://weibo.com/')
+      await this.page.emulate(devices['iPhone 6'])
+      await this.page.goto('https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=https%3A%2F%2Fm.weibo.cn%2F')
 
-      await this.page.type('#loginname', account, { delay: 20 })
-      await this.page.type('#pl_login_form .W_input', password, { delay: 20 })
+      await this.page.type('#loginName', account, { delay: 20 })
+      await this.page.type('#loginPassword', password, { delay: 20 })
 
-      let loginBtn = await this.page.$('node-type="submitBtn"')
+      let loginBtn = await this.page.$('#loginAction')
       await loginBtn.click({ delay: 20 })
 
       await this.page.waitFor(600)

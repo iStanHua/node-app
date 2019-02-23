@@ -8,16 +8,19 @@ import PuppeteerUtil from './puppeteerUtil'
 
 export default {
   async run() {
-    await this.nodeJS()
-    await this.dingTalk()
-    await this.request()
+    // await this.nodeJS()
+    // await this.dingTalk()
+    // await this.request()
+    await this.company()
   },
   async nodeJS() {
     const browser = await puppeteer.launch({ headless: false })
     const page = await browser.newPage()
 
     let puppeteerUtil = new PuppeteerUtil(page)
-    console.log(await puppeteerUtil.loginWeibo('xxxx','xxxxx'))
+    console.log(await puppeteerUtil.loginWeibo('xxxx', 'xxxxx'))
+
+    // await page.pdf({ path: 'dingtalk.pdf', format: 'letter' })
 
     await page.tracing.start({ path: 'trace.json' })
     await page.goto('http://nodejs.cn/api/')
@@ -41,8 +44,6 @@ export default {
 
     await page.screenshot({ path: 'dingtalk.png', fullPage: true })
 
-    // await page.exposeFunction('$', (html) => cheerio.load(html))
-
     const aHandle = await page.evaluateHandle(() => document.body)
     const html = await page.evaluateHandle(body => body.innerHTML, aHandle)
     await aHandle.dispose()
@@ -61,7 +62,7 @@ export default {
         let _obj = {
           orgName: $item.find('.head-name').text().replace(/\s/g, ''),
           logoUrl: $item.find('img.dd-avatar-square').attr('src'),
-          sesameCredit: $item.find('.medal').eq(2).text().replace(/\s/g, '').replace(/[^0-9]/ig,'')
+          sesameCredit: $item.find('.medal').eq(2).text().replace(/\s/g, '').replace(/[^0-9]/ig, '')
         }
         $item = null
         let name = ''
@@ -111,7 +112,37 @@ export default {
 
     await page.goto('http://news.baidu.com/')
     await page.screenshot({ path: 'news.png', fullPage: true })
-    console.log(images)
+    // console.log(images)
     await browser.close()
+  },
+  async company() {
+    const browser = await puppeteer.launch({ headless: false })
+    const page = await browser.newPage()
+    await page.emulate(devices['iPhone 6'])
+
+    await page.goto('https://m.1688.com/winport/company/b2b-2157572595.html')
+
+    const aHandle = await page.evaluateHandle(() => document.body)
+    const html = await page.evaluateHandle(body => body.innerHTML, aHandle)
+    await aHandle.dispose()
+
+    const $ = cheerio.load(await html.jsonValue())
+    let data = []
+
+    let $list = $('.tab-content .tab-pane').eq(1).find('.archive-authinfo-mod li')
+    for (let i = 0; i < $list.length; i++) {
+      let $item = $list.eq(i)
+      data.push($item.find('span').text().replace(/\s/g, ''))
+      $item = null
+    }
+    $list = $('.archive-sheet .phone')
+    for (let i = 0; i < $list.length; i++) {
+      let $item = $list.eq(i)
+      data.push($item.text().replace(/\s/g, ''))
+      $item = null
+    }
+    $list = null
+    console.log(data)
+    // await browser.close()
   }
 }

@@ -25,7 +25,6 @@ completions.push('exit')
 completions.sort()
 
 const contexts = Fs.context(process.cwd() + '/src')
-console.log(contexts)
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -110,6 +109,7 @@ rl.on('line', (line) => {
 // ctrl+C
 rl.on('SIGINT', () => {
   rl.question('终止批处理操作吗(Y/N)? ', (answer) => {
-    if (answer.match(/^y(es)?$/i)) rl.close()
+    if (answer.match(/^y(es)?$/i))
+      rl.close()
   })
 })
