@@ -9,9 +9,9 @@ import PuppeteerUtil from './puppeteerUtil'
 export default {
   async run() {
     // await this.nodeJS()
-    // await this.dingTalk()
+    await this.dingTalk()
     // await this.request()
-    await this.company()
+    // await this.company()
   },
   async nodeJS() {
     const browser = await puppeteer.launch({ headless: false })
@@ -57,8 +57,8 @@ export default {
 
     let $tabpane = $('.am-tabs-content .am-tabs-tabpane')
     for (let i = 0; i < $tabpane.length; i++) {
-      for (let j = 0; j < $tabpane.find('.section-list-item').length; j++) {
-        let $item = $tabpane.find('.section-list-item').eq(j)
+      for (let j = 0; j < $tabpane.eq(i).find('.section-list-item').length; j++) {
+        let $item = $tabpane.eq(i).find('.section-list-item').eq(j)
         let _obj = {
           orgName: $item.find('.head-name').text().replace(/\s/g, ''),
           logoUrl: $item.find('img.dd-avatar-square').attr('src'),
@@ -80,7 +80,7 @@ export default {
     }
     $tabpane = null
 
-    // console.log(data)
+    console.log(data)
 
     // const data = await page.$$eval('.am-tabs-tabpane-active .section-list-item', $li => {
     //   return $li.map(v => {
