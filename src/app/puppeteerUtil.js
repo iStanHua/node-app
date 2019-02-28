@@ -18,11 +18,11 @@ export default class PuppeteerUtil {
 
       await this.page.goto('https://github.com/login')
 
-      await this.page.type('#login_field', account, { delay: 20 })
-      await this.page.type('#password', password, { delay: 20 })
+      await this.page.type('#login_field', account, { delay: 100 })
+      await this.page.type('#password', password, { delay: 100 })
 
       let loginBtn = await this.page.$('[name=commit]')
-      await loginBtn.click({ delay: 20 })
+      await loginBtn.click({ delay: 300 })
 
       await this.page.waitFor(600)
 
@@ -41,11 +41,11 @@ export default class PuppeteerUtil {
       await this.page.emulate(devices['iPhone 6'])
       await this.page.goto('https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=https%3A%2F%2Fm.weibo.cn%2F')
 
-      await this.page.type('#loginName', account, { delay: 20 })
-      await this.page.type('#loginPassword', password, { delay: 20 })
+      await this.page.type('#loginName', account, { delay: 100 })
+      await this.page.type('#loginPassword', password, { delay: 100 })
 
       let loginBtn = await this.page.$('#loginAction')
-      await loginBtn.click({ delay: 20 })
+      await loginBtn.click({ delay: 300 })
 
       await this.page.waitFor(600)
 

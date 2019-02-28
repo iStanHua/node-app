@@ -58,5 +58,56 @@ export default {
     rl1.on('line', (line) => {
       console.log(`文件的单行内容：${line}`)
     })
+  },
+  /**
+   * 逐行读取
+   * @param {String} fileName 文件名
+   * @param {Function} cb     回调函数
+   */
+  readLine(fileName, cb) {
+    if (!fileName) {
+      console.warn('文件名不能为空')
+      return
+    }
+    let readStream = fs.createReadStream(fileName)
+
+    readStream.on('open', function (fd) {
+      console.log('开始读取文件')
+    })
+    readStream.on('end', function () {
+      console.log('文件已全部读取完毕')
+    })
+    readStream.on('close', function () {
+      console.log('文件被关闭')
+    })
+    readStream.on('error', function (err) {
+      console.log('读取文件失败')
+    })
+    const rl = readline.createInterface({
+      input: readStream
+    })
+
+    rl.on('line', (input) => {
+      if (typeof cb === 'function')
+        cb(input)
+    })
+
+  },
+  /**
+   * 逐行写入
+   * @param {String} fileName 文件名
+   * @param {String} content  写入内容
+   */
+  writeLine(fileName, content) {
+    if (!fileName) {
+      console.warn('文件名不能为空')
+      return
+    }
+    if (!content) {
+      console.warn('写入内容不能为空')
+      return
+    }
+
+    fs.appendFileSync(fileName, content+'\t', 'utf8')
   }
 }

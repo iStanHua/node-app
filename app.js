@@ -68,7 +68,11 @@ rl.on('line', (line) => {
       Path.run('./app.js')
       break
     case 'readline':
-      Readline.run()
+      Readline.readLine('trace.json',(txt)=>{
+        setTimeout(() => {
+          Readline.writeLine('trace.txt',txt)
+        }, 1000)
+      })
       break
     case 'url':
       Url.run()

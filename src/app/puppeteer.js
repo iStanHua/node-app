@@ -9,9 +9,9 @@ import PuppeteerUtil from './puppeteerUtil'
 export default {
   async run() {
     // await this.nodeJS()
-    await this.dingTalk()
+    // await this.dingTalk()
     // await this.request()
-    // await this.company()
+    await this.meituan()
   },
   async nodeJS() {
     const browser = await puppeteer.launch({ headless: false })
@@ -144,5 +144,22 @@ export default {
     $list = null
     console.log(data)
     // await browser.close()
+  },
+  async meituan() {
+    const browser = await puppeteer.launch({ headless: false })
+    const page = await browser.newPage()
+
+    await page.goto('https://sz.meituan.com/jiankangliren/c75/pn1/')
+
+    const aHandle = await page.evaluateHandle(() => document.body)
+    const html = await page.evaluateHandle(body => body.innerHTML, aHandle)
+    await aHandle.dispose()
+
+    const $ = cheerio.load(await html.jsonValue())
+    let txt = $('#react').next('script').html().replace('window.AppData = ', '').trim()
+    txt = txt.substr(0, txt.length - 1)
+    console.log(JSON.parse(txt))
+    // console.log(eval(`(${txt})`))
+    await browser.close()
   }
 }
