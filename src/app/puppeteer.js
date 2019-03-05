@@ -11,7 +11,8 @@ export default {
     // await this.nodeJS()
     // await this.dingTalk()
     // await this.request()
-    await this.meituan()
+    // await this.meituan()
+    await this.liren()
   },
   async nodeJS() {
     const browser = await puppeteer.launch({ headless: false })
@@ -160,6 +161,87 @@ export default {
     txt = txt.substr(0, txt.length - 1)
     console.log(JSON.parse(txt))
     // console.log(eval(`(${txt})`))
+    await browser.close()
+  },
+  async liren() {
+    const browser = await puppeteer.launch({ headless: false })
+    const page = await browser.newPage()
+
+    await page.goto('https://apimobile.meituan.com/group/v4/poi/pcsearch/30?uuid=ef24c24a8ce0466dab62.1551765741.1.0.0&userid=-1&limit=1000&offset=0&cateId=22&areaId=-1')
+
+    let aHandle = await page.evaluateHandle(() => document.body)
+    let html = await page.evaluateHandle(body => body.innerHTML, aHandle)
+    await aHandle.dispose()
+
+    let $ = cheerio.load(await html.jsonValue())
+    html = null
+    let res = JSON.parse($('body pre').text())
+    let ids = res.data.searchResult.map(s => s.id)
+    let list = []
+    do {
+      await page.waitFor(1000)
+      await page.goto(`https://www.meituan.com/jiankangliren/${ids.splice(1, 0)}/`)
+
+      aHandle = await page.evaluateHandle(() => document.body)
+      html = await page.evaluateHandle(body => body.innerHTML, aHandle)
+      aHandle.dispose()
+
+      $ = cheerio.load(await html.jsonValue())
+      html = null
+
+      let txt = $('#react').next('script').html().replace('window.AppData = ', '').trim()
+      txt = txt.substr(0, txt.length - 1)
+      let data = JSON.parse(txt)
+      txt = null
+
+      let landline = []
+      let phone_number = []
+      let phone = data.poiInfo.phone
+      phone = phone.split('\u002F')
+      phone.forEach(p => {
+        if (/^1[3|4|5|6|7|8|9]\d{9}$/.test(p)) {
+          phone_number.push(p)
+        }
+        else {
+          landline.push(p)
+        }
+      })
+
+      list.push({
+        name: data.poiInfo.name,
+        address: data.poiInfo.address,
+        landline: landline.join(','),
+        phone_number: phone_number.join(','),
+        source: '美团'
+      })
+
+      for (let i = 0; i < data.nearPoiList.length; i++) {
+        const nearPoiList = data.nearPoiList[i]
+        landline = []
+        phone_number = []
+        phone = nearPoiList.phone
+        phone = phone.split('\u002F')
+        phone.forEach(p => {
+          if (/^1[3|4|5|6|7|8|9]\d{9}$/.test(p)) {
+            phone_number.push(p)
+          }
+          else {
+            landline.push(p)
+          }
+        })
+        list.push({
+          name: nearPoiList.name,
+          address: nearPoiList.address,
+          landline: landline.join(','),
+          phone_number: phone_number.join(','),
+          source: '美团'
+        })
+
+      }
+      ids = []
+    } while (ids.length)
+
+    console.log(list)
     await browser.close()
   }
 }
