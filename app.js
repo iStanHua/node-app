@@ -65,7 +65,7 @@ rl.on('line', (line) => {
       Os.run()
       break
     case 'path':
-      Path.run('./app.js')
+      Path.run('/dist/app.js')
       break
     case 'readline':
       Readline.readLine('trace.json',(txt)=>{
