@@ -5,13 +5,13 @@ import fs from 'fs'
 
 export default {
   run() {
-    potrace.trace('faces.png', {
+    potrace.trace('./src/images/faces.png', {
       // background: '#ffffff',
       // color: 'black',
       threshold: 128
     }, (err, svg) => {
       if (err) console.log(err)
-      fs.writeFileSync('faces.svg', svg)
+      fs.writeFileSync('./src/images/faces.svg', svg)
     })
   }
 }

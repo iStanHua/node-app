@@ -13,7 +13,7 @@ export default {
   gzip(fileName) {
     const gzip = zlib.createGzip()
     const inp = fs.createReadStream(fileName)
-    const out = fs.createWriteStream(`${fileName}.gz`)
+    const out = fs.createWriteStream(`./src/images/${fileName}.gz`)
     inp.pipe(gzip).pipe(out)
   },
   // 数据压缩
