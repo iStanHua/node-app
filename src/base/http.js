@@ -10,7 +10,7 @@ export default {
     const port = 8899
 
     http.createServer((request, response) => {
-      const raw = fs.createReadStream('./src/images/index.html')
+      const raw = fs.createReadStream('./src/sources/index.html')
       let acceptEncoding = request.headers['accept-encoding']
       if (!acceptEncoding) {
         acceptEncoding = ''

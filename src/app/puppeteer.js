@@ -23,7 +23,7 @@ export default {
 
     // await page.pdf({ path: 'dingtalk.pdf', format: 'letter' })
 
-    await page.tracing.start({ path: './src/images/trace.json' })
+    await page.tracing.start({ path: './src/sources/trace.json' })
     await page.goto('http://nodejs.cn/api/')
     await page.tracing.stop()
 
@@ -43,7 +43,7 @@ export default {
 
     await page.goto('https://h5.dingtalk.com/orgsquare/index.html#/industryTop/1?code=0')
 
-    await page.screenshot({ path: './src/images/dingtalk.png', fullPage: true })
+    await page.screenshot({ path: './src/sources/dingtalk.png', fullPage: true })
 
     const aHandle = await page.evaluateHandle(() => document.body)
     const html = await page.evaluateHandle(body => body.innerHTML, aHandle)
@@ -112,7 +112,7 @@ export default {
     })
 
     await page.goto('http://news.baidu.com/')
-    await page.screenshot({ path: './src/images/news.png', fullPage: true })
+    await page.screenshot({ path: './src/sources/news.png', fullPage: true })
     // console.log(images)
     await browser.close()
   },
