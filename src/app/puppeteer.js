@@ -179,7 +179,7 @@ export default {
     let ids = res.data.searchResult.map(s => s.id)
     let list = []
     do {
-      await page.waitFor(1000)
+      await page.waitFor(Math.random * 10000)
       await page.goto(`https://www.meituan.com/jiankangliren/${ids.splice(1, 0)}/`)
 
       aHandle = await page.evaluateHandle(() => document.body)
@@ -196,6 +196,7 @@ export default {
 
       let landline = []
       let phone_number = []
+      if (!data.poiInfo) continue
       let phone = data.poiInfo.phone
       phone = phone.split('\u002F')
       phone.forEach(p => {
