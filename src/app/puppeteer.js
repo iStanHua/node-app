@@ -3,6 +3,8 @@
 import puppeteer from 'puppeteer'
 import devices from 'puppeteer/DeviceDescriptors'
 import cheerio from 'cheerio'
+import fs from 'fs'
+import path from 'path'
 
 import PuppeteerUtil from './puppeteerUtil'
 
@@ -12,8 +14,29 @@ export default {
     // await this.dingTalk()
     // await this.request()
     // await this.meituan()
-    await this.liren()
+    // await this.meituanURL()
+    await this.meituanInfo()
   },
+  async request() {
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
+    await page.setRequestInterception(true)
+    let images = []
+    page.on('request', request => {
+      if (request.resourceType() === 'image') {
+        images.push(request.url())
+        request.abort()
+      }
+      else
+        request.continue()
+    })
+
+    await page.goto('http://news.baidu.com/')
+    await page.screenshot({ path: './src/sources/news.png', fullPage: true })
+    // console.log(images)
+    await browser.close()
+  },
+
   async nodeJS() {
     const browser = await puppeteer.launch({ headless: false })
     const page = await browser.newPage()
@@ -97,25 +120,6 @@ export default {
 
     await browser.close()
   },
-  async request() {
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage()
-    await page.setRequestInterception(true)
-    let images = []
-    page.on('request', request => {
-      if (request.resourceType() === 'image') {
-        images.push(request.url())
-        request.abort()
-      }
-      else
-        request.continue()
-    })
-
-    await page.goto('http://news.baidu.com/')
-    await page.screenshot({ path: './src/sources/news.png', fullPage: true })
-    // console.log(images)
-    await browser.close()
-  },
   async company() {
     const browser = await puppeteer.launch({ headless: false })
     const page = await browser.newPage()
@@ -163,30 +167,109 @@ export default {
     // console.log(eval(`(${txt})`))
     await browser.close()
   },
-  async liren() {
-    const browser = await puppeteer.launch({ headless: false })
+  async meituanURL() {
+    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] })
     const page = await browser.newPage()
 
-    await page.goto('https://apimobile.meituan.com/group/v4/poi/pcsearch/30?uuid=ef24c24a8ce0466dab62.1551765741.1.0.0&userid=-1&limit=1000&offset=0&cateId=22&areaId=-1')
+    let cityInfo = {
+      citys: {
+        '北京': 1,
+        '上海': 10,
+        '广州': 20,
+        '深圳': 30,
+        '天津': 40,
+        '西安': 42,
+        '重庆': 45,
+        '杭州': 50,
+        '南京': 55,
+        '武汉': 57,
+        '成都': 59
+      },
+      cates: {
+        2: 'xiuxianyule',
+        3: 'shenghuo',
+        27: 'aiche',
+        75: 'jiankangliren',
+        20007: 'qinzi',
+        20178: 'jiehun',
+        20179: 'jiazhuang',
+        20274: 'yiliao',
+        20285: 'xuexipeixun',
+        20691: 'chongwu'
+      }
+    }
+    for (const key in cityInfo.citys) {
+      if (cityInfo.citys.hasOwnProperty(key)) {
+        let cityId = cityInfo.citys[key]
+        for (const c in cityInfo.cates) {
+          if (cityInfo.cates.hasOwnProperty(c)) {
+            let cateId = c
+            await page.goto(`https://apimobile.meituan.com/group/v4/poi/pcsearch/${cityId}?uuid=ce0636cb9c9741488ce4.1552616021.1.0.0&userid=-1&limit=1000&offset=1&cateId=${cateId}&areaId=-1`)
 
-    let aHandle = await page.evaluateHandle(() => document.body)
-    let html = await page.evaluateHandle(body => body.innerHTML, aHandle)
-    await aHandle.dispose()
+            let aHandle = await page.evaluateHandle(() => document.body)
+            let html = await page.evaluateHandle(body => body.innerHTML, aHandle)
+            await aHandle.dispose()
 
-    let $ = cheerio.load(await html.jsonValue())
-    html = null
-    let res = JSON.parse($('body pre').text())
-    let ids = res.data.searchResult.map(s => s.id)
+            let $ = cheerio.load(await html.jsonValue())
+            html = null
+            let res = JSON.parse($('body pre').text())
+            let ids = res.data.searchResult.map(s => `https://www.meituan.com/${cityInfo.cates[c]}/${s.id}/`)
+            res = null
+            fs.writeFileSync(`./src/sources/meituan/${key}/${cityInfo.cates[c]}-${cateId}.txt`, ids)
+            ids = null
+
+            await page.waitFor(Math.ceil(Math.random * 100) * 2000)
+          }
+        }
+
+      }
+    }
+    await browser.close()
+  },
+  async meituanInfo(fn, l) {
+    // const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] })
+
+    const browser = await puppeteer.launch({ headless: false })
+
+    const page = await browser.newPage()
+    let fileName = './src/sources/meituan/广州/jiankangliren-75-1-1-1-1-1-1.txt'
+    if (fn) {
+      fileName = fn
+    }
+
+    let fileNames = fileName.split('/')
+
+    let codes = []
+    if (fn) {
+      if (l.length) {
+        codes = l
+      }
+      else {
+        await browser.close()
+        return
+      }
+    }
+    else {
+      let code = fs.readFileSync(fileName, 'utf-8')
+      codes = code.split(',')
+      code = null
+    }
+
+
     let list = []
-    do {
-      await page.waitFor(Math.random * 10000)
-      await page.goto(`https://www.meituan.com/jiankangliren/${ids.splice(1, 0)}/`)
 
-      aHandle = await page.evaluateHandle(() => document.body)
-      html = await page.evaluateHandle(body => body.innerHTML, aHandle)
+    do {
+
+      await page.waitFor(1000)
+
+      let url = codes.splice(0, 1)[0]
+      await page.goto(url)
+
+      const aHandle = await page.evaluateHandle(() => document.body)
+      let html = await page.evaluateHandle(body => body.innerHTML, aHandle)
       aHandle.dispose()
 
-      $ = cheerio.load(await html.jsonValue())
+      let $ = cheerio.load(await html.jsonValue())
       html = null
 
       let txt = $('#react').next('script').html().replace('window.AppData = ', '').trim()
@@ -196,7 +279,21 @@ export default {
 
       let landline = []
       let phone_number = []
-      if (!data.poiInfo) continue
+      if (!data.poiInfo) {
+
+        fs.writeFileSync(path.join(path.dirname(fileName), fileNames[fileNames.length - 1].replace('.txt', '.json')), JSON.stringify(list))
+        fileNames = null
+
+        if (codes.length) {
+          let newFileName = fileName.replace('.txt', '-1.txt')
+          fs.writeFileSync(newFileName, codes)
+          await page.waitFor(2000)
+          await browser.close()
+          await this.meituanInfo(newFileName, codes)
+        }
+        return
+      }
+
       let phone = data.poiInfo.phone
       phone = phone.split('\u002F')
       phone.forEach(p => {
@@ -209,6 +306,7 @@ export default {
       })
 
       list.push({
+        id: url.match(/\d+/g)[0],
         name: data.poiInfo.name,
         address: data.poiInfo.address,
         landline: landline.join(','),
@@ -216,33 +314,16 @@ export default {
         source: '美团'
       })
 
-      for (let i = 0; i < data.nearPoiList.length; i++) {
-        const nearPoiList = data.nearPoiList[i]
-        landline = []
-        phone_number = []
-        phone = nearPoiList.phone
-        phone = phone.split('\u002F')
-        phone.forEach(p => {
-          if (/^1[3|4|5|6|7|8|9]\d{9}$/.test(p)) {
-            phone_number.push(p)
-          }
-          else {
-            landline.push(p)
-          }
-        })
-        list.push({
-          name: nearPoiList.name,
-          address: nearPoiList.address,
-          landline: landline.join(','),
-          phone_number: phone_number.join(','),
-          source: '美团'
-        })
+      landline = null
+      phone_number = null
 
-      }
-      ids = []
-    } while (ids.length)
+      await page.waitFor(1000)
 
-    console.log(list)
+    } while (codes.length)
+
+    fs.writeFileSync(path.join(path.dirname(fileName), fileNames[fileNames.length - 1].replace('.txt', '.json')), JSON.stringify(list))
+    fileNames = null
+
     await browser.close()
   }
 }
