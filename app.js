@@ -18,6 +18,7 @@ import Potrace from './src/app/potrace'
 import Puppeteer from './src/app/puppeteer'
 import Tinify from './src/app/tinify'
 import Shell from './src/app/shell'
+import FFmpeg from './src/app/ffmpeg'
 
 let completions = []
 Fs.readFiles('./src', completions, '.js')
@@ -68,9 +69,9 @@ rl.on('line', (line) => {
       Path.run('/dist/app.js')
       break
     case 'readline':
-      Readline.readLine('trace.json',(txt)=>{
+      Readline.readLine('trace.json', (txt) => {
         setTimeout(() => {
-          Readline.writeLine('trace.txt',txt)
+          Readline.writeLine('trace.txt', txt)
         }, 1000)
       })
       break
@@ -96,6 +97,9 @@ rl.on('line', (line) => {
       break
     case 'ls':
       Shell.ls()
+      break
+    case 'ffmpeg':
+      FFmpeg.run()
       break
 
     case 'exit':
