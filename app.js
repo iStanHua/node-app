@@ -12,6 +12,7 @@ import Os from './src/base/os'
 import Path from './src/base/path'
 import Readline from './src/base/readline'
 import Url from './src/base/url'
+import Vm from './src/base/vm'
 import Zlib from './src/base/zlib'
 
 import Potrace from './src/app/potrace'
@@ -77,6 +78,9 @@ rl.on('line', (line) => {
       break
     case 'url':
       Url.run()
+      break
+    case 'vm':
+      Vm.run()
       break
     case 'zlib':
       Zlib.run()
