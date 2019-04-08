@@ -20,6 +20,7 @@ import Puppeteer from './src/app/puppeteer'
 import Tinify from './src/app/tinify'
 import Shell from './src/app/shell'
 import FFmpeg from './src/app/ffmpeg'
+import Forge from './src/app/forge'
 
 let completions = []
 Fs.readFiles('./src', completions, '.js')
@@ -104,6 +105,9 @@ rl.on('line', (line) => {
       break
     case 'ffmpeg':
       FFmpeg.run()
+      break
+    case 'forge':
+      Forge.run()
       break
 
     case 'exit':
