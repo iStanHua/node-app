@@ -21,6 +21,7 @@ import Tinify from './src/app/tinify'
 import Shell from './src/app/shell'
 import FFmpeg from './src/app/ffmpeg'
 import Forge from './src/app/forge'
+import Pngjs from './src/app/pngjs'
 
 let completions = []
 Fs.readFiles('./src', completions, '.js')
@@ -108,6 +109,9 @@ rl.on('line', (line) => {
       break
     case 'forge':
       Forge.run()
+      break
+    case 'pngjs':
+      Pngjs.run()
       break
 
     case 'exit':
