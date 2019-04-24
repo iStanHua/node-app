@@ -4,7 +4,7 @@ import shell from 'shelljs'
 
 export default {
   push() {
-    shell.exec('npm view stan-cli version')
+    console.log(shell.exec('npm view stan-cli version'))
     shell.echo('git push')
     shell.exec('git add .')
     shell.exec('git commit -am ".."')
