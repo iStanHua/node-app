@@ -1,16 +1,23 @@
 // base/dns.js 域名服务器
 
 import dns from 'dns'
+import os from 'os'
 
 export default {
   run() {
     const options = {
-      family: 6,
+      // family: 6,
       hints: dns.ADDRCONFIG | dns.V4MAPPED,
     }
-    dns.lookup('baidu.com', options, (err, address, family) => {
+
+    dns.lookup(os.hostname(), options, (err, address, family) => {
       if (err) throw err
       console.log('IP 地址: %j 地址族: IPv%s', address, family)
+    })
+
+    dns.lookup('baidu.com', options, (err, address, family) => {
+      if (err) throw err
+      console.log('baidu IP 地址: %j 地址族: IPv%s', address, family)
     })
 
 
