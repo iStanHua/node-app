@@ -3,6 +3,7 @@
 import readline from 'readline'
 
 import childProcess from './src/base/child_process'
+import Cluster from './src/base/cluster'
 import crypto from './src/base/crypto'
 import Dns from './src/base/dns'
 import Fs from './src/base/fs'
@@ -47,6 +48,9 @@ rl.on('line', (line) => {
   switch (line.trim()) {
     case 'child_process':
       childProcess.run()
+      break
+    case 'cluster':
+      Cluster.run()
       break
     case 'crypto':
       crypto.run()
