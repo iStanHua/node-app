@@ -5,18 +5,20 @@
   "scripts": {
     "start": "node start"
   },
-  "devDependencies": {
-    "babel-register": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-plugin-transform-runtime":"^6.23.0",
+  "dependencies": {
     "tinify": "^1.6.0-beta.2",
     "shelljs": "^0.8.3",
     "potrace": "^2.1.1",
-    "puppeteer": "^1.12.2",
-    "cheerio":"^1.0.0-rc.2",
-    "request":"^2.88.0",
-    "fluent-ffmpeg":"^2.1.2",
-    "node-forge":"^0.8.2",
-    "pngjs":"3.4.0"
+    "puppeteer": "^1.15.0",
+    "cheerio": "^1.0.0-rc.3",
+    "request": "^2.88.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "node-forge": "^0.8.2",
+    "pngjs": "^3.4.0"
+  },
+  "devDependencies": {
+    "babel-register": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-plugin-transform-runtime": "^6.23.0"
   }
 }
