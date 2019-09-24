@@ -23,6 +23,7 @@ import Shell from './src/app/shell'
 import FFmpeg from './src/app/ffmpeg'
 import Forge from './src/app/forge'
 import Pngjs from './src/app/pngjs'
+import Officegen from './src/app/officegen'
 
 let completions = []
 Fs.readFiles('./src', completions, '.js')
@@ -116,6 +117,9 @@ rl.on('line', (line) => {
       break
     case 'pngjs':
       Pngjs.run()
+      break
+    case 'officegen':
+      Officegen.run()
       break
 
     case 'exit':

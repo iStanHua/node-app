@@ -14,7 +14,8 @@
     "request": "^2.88.0",
     "fluent-ffmpeg": "^2.1.2",
     "node-forge": "^0.8.2",
-    "pngjs": "^3.4.0"
+    "pngjs": "^3.4.0",
+    "officegen": "^0.6.3"
   },
   "devDependencies": {
     "babel-register": "^6.26.0",
