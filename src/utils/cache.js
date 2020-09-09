@@ -102,11 +102,13 @@ export class FIFOCache {
     let keys = this.keys
     if (!Object.prototype.hasOwnProperty.call(map, key)) {
       if (keys.length === this.limit) {
-        delete map[keys.shift()]//先进先出，删除队列第一个元素
+        // 先进先出，删除队列第一个元素
+        delete map[keys.shift()]
       }
       keys.push(key)
     }
-    map[key] = value//无论存在与否都对map中的key赋值
+    // 无论存在与否都对map中的key赋值
+    map[key] = value
   }
   get(key) {
     return this.map[key]
