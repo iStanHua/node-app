@@ -13,7 +13,7 @@
     "cheerio": "^1.0.0-rc.3",
     "request": "^2.88.0",
     "fluent-ffmpeg": "^2.1.2",
-    "node-forge": "^0.8.2",
+    "node-forge": "^0.10.0",
     "pngjs": "^3.4.0",
     "officegen": "^0.6.3",
     "bitmap2vector": "^0.0.4",
