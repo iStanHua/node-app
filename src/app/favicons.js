@@ -1,6 +1,7 @@
 // app/favicons.js
 
 import favicons from 'favicons'
+import fs from 'fs'
 
 export default {
   run() {
@@ -46,7 +47,11 @@ export default {
           yandex: true                // Create Yandex browser icon. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }` or an array of sources
         }
       }).then(res => {
-        console.log(res)
+        for (let i = 0; i < res.images.length; i++) {
+          const item = res.images[i]
+          console.log(item)
+          fs.writeFileSync(`./src/sources/favicon/${item.name}`, item.contents)
+        }
       }).catch(err => {
         console.log(err)
       })
