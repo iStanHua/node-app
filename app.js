@@ -26,6 +26,8 @@ import FFmpeg from './src/app/ffmpeg';
 import Forge from './src/app/forge';
 import Pngjs from './src/app/pngjs';
 import Officegen from './src/app/officegen';
+import Favicon from './src/app/favicon';
+import Favicons from './src/app/favicons';
 
 let completions = [];
 Fs.readFiles('./src', completions, '.js');
@@ -127,6 +129,12 @@ rl.on('line', line => {
       break;
     case 'officegen':
       Officegen.run();
+      break;
+    case 'favicon':
+      Favicon.run();
+      break;
+    case 'favicons':
+      Favicons.run();
       break;
 
     case 'exit':

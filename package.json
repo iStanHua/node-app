@@ -17,7 +17,9 @@
     "pngjs": "^3.4.0",
     "officegen": "^0.6.3",
     "bitmap2vector": "^0.0.4",
-    "png-to-ico": "^2.0.6"
+    "png-to-ico": "^2.0.6",
+    "favicons": "^6.2.0",
+    "@meltwater/fetch-favicon": "^1.0.4"
   },
   "devDependencies": {
     "babel-register": "^6.26.0",
