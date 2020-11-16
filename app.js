@@ -28,6 +28,7 @@ import Pngjs from './src/app/pngjs';
 import Officegen from './src/app/officegen';
 import Favicon from './src/app/favicon';
 import Favicons from './src/app/favicons';
+import Download from './src/app/download';
 
 let completions = [];
 Fs.readFiles('./src', completions, '.js');
@@ -135,6 +136,9 @@ rl.on('line', line => {
       break;
     case 'favicons':
       Favicons.run();
+      break;
+    case 'download':
+      Download.run();
       break;
 
     case 'exit':
