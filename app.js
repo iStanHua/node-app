@@ -29,6 +29,7 @@ import Officegen from './src/app/officegen';
 import Favicon from './src/app/favicon';
 import Favicons from './src/app/favicons';
 import Download from './src/app/download';
+import Ip2region from './src/app/ip2region';
 
 let completions = [];
 Fs.readFiles('./src', completions, '.js');
@@ -139,6 +140,9 @@ rl.on('line', line => {
       break;
     case 'download':
       Download.run();
+      break;
+    case 'ip2region':
+      Ip2region.run();
       break;
 
     case 'exit':

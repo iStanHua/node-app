@@ -22,7 +22,8 @@
     "@meltwater/fetch-favicon": "^1.0.4",
     "download": "^8.0.0",
     "decompress": "^4.2.1",
-    "progress": "^2.0.3"
+    "progress": "^2.0.3",
+    "node-ip2region": "^1.0.2"
   },
   "devDependencies": {
     "babel-register": "^6.26.0",
