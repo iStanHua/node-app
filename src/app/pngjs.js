@@ -73,8 +73,8 @@ export default {
     newfile.pack()
       .pipe(fs.createWriteStream('./src/sources/newfile.png'))
       .on('finish', function () {
-        console.log('Written!');
-      });
+        console.log('Written!')
+      })
   },
   sync(input, output) {
     var data = fs.readFileSync(input)
@@ -82,10 +82,10 @@ export default {
     var png = PNG.sync.read(data, {
       filterType: -1,
       inputHasAlpha: true
-    });
+    })
     // Pack it back into a PNG data
-    var buff = PNG.sync.write(png,{ colorType: 6 });
+    var buff = PNG.sync.write(png,{ colorType: 6 })
     // Write a PNG file
-    fs.writeFileSync(output, buff);
+    fs.writeFileSync(output, buff)
   }
 }

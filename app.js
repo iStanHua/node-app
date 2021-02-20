@@ -30,6 +30,7 @@ import Favicon from './src/app/favicon';
 import Favicons from './src/app/favicons';
 import Download from './src/app/download';
 import Ip2region from './src/app/ip2region';
+import Ini from './src/app/ini';
 
 let completions = [];
 Fs.readFiles('./src', completions, '.js');
@@ -41,7 +42,7 @@ const contexts = Fs.context(process.cwd() + '/src');
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: '>',
+  prompt: 'APP > ',
   completer: line => {
     const hits = completions.filter(c => c.startsWith(line));
     // 如果没匹配到y则展示全部补全
@@ -143,6 +144,9 @@ rl.on('line', line => {
       break;
     case 'ip2region':
       Ip2region.run();
+      break;
+    case 'ini':
+      Ini.run();
       break;
 
     case 'exit':

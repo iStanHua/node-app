@@ -7,4 +7,4 @@ export default {
     let result = searcher.btreeSearchSync('113.90.237.217')
     console.log(result)
   }
-};
+}
