@@ -31,6 +31,7 @@ import Favicons from './src/app/favicons';
 import Download from './src/app/download';
 import Ip2region from './src/app/ip2region';
 import Ini from './src/app/ini';
+import Inquirer from './src/app/inquirer';
 
 let completions = [];
 Fs.readFiles('./src', completions, '.js');
@@ -147,6 +148,9 @@ rl.on('line', line => {
       break;
     case 'ini':
       Ini.run();
+      break;
+    case 'inquirer':
+      Inquirer.run();
       break;
 
     case 'exit':
